@@ -48,6 +48,7 @@
 
 <script>
 import {loginDB} from '../plugins/forage'
+import {mapActions} from 'vuex'
 export default {
   name: 'login',
   data () {
@@ -64,12 +65,16 @@ export default {
     }
   },
   methods: {
+    ...mapActions([
+      'signIn'
+    ]),
     login () {
       let {username, password} = this.loginInfo
       if (username && password) {
         loginDB.getItem(username).then(data => {
           if (data) {
             if (data.password === password) {
+              this.signIn()
               this.$router.push('/')
             } else {
               this.$toast('The username or password is not corrected, please try again!')

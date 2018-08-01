@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from '../store'
 import HelloWorld from '@/components/HelloWorld'
 import Login from '@/components/login'
 import Home from '@/components/index'
@@ -29,10 +30,10 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.meta.unAuth) {
+  if (to.meta.unAuth || store.state.isSignIn) {
     next()
   } else {
-    next(false)
+    router.push('/login')
   }
 })
 

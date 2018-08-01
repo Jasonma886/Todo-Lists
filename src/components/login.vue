@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <van-tabs v-model="active" swipeable>
+    <van-tabs swipeable>
       <van-tab title="Sign in">
         <van-cell-group>
           <van-field

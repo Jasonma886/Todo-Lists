@@ -27,6 +27,7 @@ module.exports = {
       'vue',
       'vant',
       'vue-router',
+      'vuex',
       'localforage'
     ]
   },

@@ -29,8 +29,11 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  console.log(to)
-  next()
+  if (to.meta.unAuth) {
+    next()
+  } else {
+    next(false)
+  }
 })
 
 export default router

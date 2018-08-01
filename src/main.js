@@ -4,6 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import Vant from 'vant'
+import store from './store'
 import 'vant/lib/vant-css/index.css'
 
 Vue.config.productionTip = false
@@ -13,6 +14,7 @@ Vue.use(Vant)
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })

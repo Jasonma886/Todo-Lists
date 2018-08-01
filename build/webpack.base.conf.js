@@ -26,7 +26,8 @@ module.exports = {
     vendor: [
       'vue',
       'vant',
-      'vue-router'
+      'vue-router',
+      'localforage'
     ]
   },
   output: {

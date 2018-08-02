@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import store from '../store'
 import HelloWorld from '@/components/HelloWorld'
-import Login from '@/components/login'
+import Guide from '@/components/guide'
 import Home from '@/components/index'
 import Writing from '@/components/writing'
 import Dairy from '@/components/dairy'
@@ -17,9 +17,9 @@ const router = new Router({
       component: Home
     },
     {
-      path: '/login',
-      name: 'login',
-      component: Login,
+      path: '/guide',
+      name: 'guide',
+      component: Guide,
       meta: {unAuth: true}
     },
     {
@@ -44,7 +44,7 @@ router.beforeEach((to, from, next) => {
   if (to.meta.unAuth || store.state.isSignIn) {
     next()
   } else {
-    router.push('/login')
+    router.push('/guide')
   }
 })
 

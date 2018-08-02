@@ -1,5 +1,7 @@
 <template>
   <div id="app">
+    <div class="first-open upper-part"></div>
+    <div class="first-open down-part"></div>
     <transition name="van-fade">
       <router-view/>
     </transition>
@@ -12,7 +14,26 @@ export default {
 }
 </script>
 
-<style>
+<style lang="stylus">
+@keyframes move-up {
+  from {
+    top: 0
+  }
+  to {
+    top: -50%
+    display: none
+  }
+}
+
+@keyframes move-down {
+  from {
+    bottom 0
+  }
+  to {
+    bottom -50%
+    display: none
+  }
+}
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -21,5 +42,23 @@ export default {
   color: #2c3e50;
   height: 100vh;
   background-color: deepskyblue;
+  .first-open {
+    position: absolute
+    width: 100%
+    height: 50%
+    background-size: cover;
+    background-repeat: no-repeat;
+    z-index: 999
+  }
+  .upper-part {
+    top 0
+    background-image: url(./assets/up.png)
+    animation move-up 2s forwards
+  }
+  .down-part {
+    bottom 0
+    background-image: url(./assets/down.png)
+    animation move-down 2s forwards
+  }
 }
 </style>

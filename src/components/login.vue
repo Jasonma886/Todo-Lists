@@ -1,5 +1,6 @@
 <template>
   <div class="login">
+    <van-nav-bar title="Sign In"/>
     <van-tabs swipeable>
       <van-tab title="Sign in">
         <van-cell-group>
@@ -122,6 +123,6 @@ export default {
 
 <style lang="stylus" scoped>
   .login {
-    margin-top: 60px
+    /*margin-top: 60px*/
   }
 </style>

@@ -1,13 +1,15 @@
 <template>
-  <div name="van-slide-bottom">
-    <van-button @click="get">get DB</van-button>
-    <van-list
-      v-model="loading"
-      :finished="finished"
-      @load="onLoad"
-    >
-      <van-cell v-for="item in list" :key="item" :title="item + ''" />
-    </van-list>
+  <div class="home">
+    <van-nav-bar
+      left-text="返回"
+      right-text=""
+      left-arrow
+      @click-left="$router.back()"
+      @click-right="$toast('hi')"
+    />
+    <van-cell-group>
+      <van-cell v-for="item in todoLists" :key="item.id" :title="item.content" :value="stamp2Time(item.time)" @click="$router.push('/dairy/' + item.time)" />
+    </van-cell-group>
     <Flutter></Flutter>
   </div>
 </template>
@@ -15,6 +17,7 @@
 <script>
 import { listsDB } from '../plugins/forage'
 import Flutter from '../base/flutter'
+import {stamp2Time} from '../utils/time'
 export default {
   name: 'index',
   data () {
@@ -29,6 +32,7 @@ export default {
   mounted () {
   },
   methods: {
+    stamp2Time,
     get () {
       listsDB.iterate((value, key, number) => {
         if (value) {
@@ -40,15 +44,27 @@ export default {
     }
   },
   beforeRouteEnter (to, from, next) {
-    listsDB.keys().then(keys => {
+    let arr = []
+    listsDB.iterate((value, key, number) => {
+      if (value) {
+        arr.push(value)
+      }
+    }).then(data => {
       next(vm => {
-        vm.listTitles = keys
+        vm.todoLists = arr
       })
     })
   }
 }
 </script>
 
-<style lang="" scoped>
-
+<style lang="stylus" scoped>
+.home
+  text-align: left
+</style>
+<style lang="stylus">
+  .home
+    .van-cell__value
+      color: #666
+      font-size: 12px
 </style>

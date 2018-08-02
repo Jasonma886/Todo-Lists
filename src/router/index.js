@@ -4,7 +4,8 @@ import store from '../store'
 import HelloWorld from '@/components/HelloWorld'
 import Login from '@/components/login'
 import Home from '@/components/index'
-
+import Writing from '@/components/writing'
+import Dairy from '@/components/dairy'
 Vue.use(Router)
 
 const router = new Router({
@@ -25,6 +26,16 @@ const router = new Router({
       path: '/hello',
       name: 'hello',
       component: HelloWorld
+    },
+    {
+      path: '/writing',
+      name: 'writing',
+      component: Writing
+    },
+    {
+      path: '/dairy/:value',
+      name: 'dairy',
+      component: Dairy
     }
   ]
 })

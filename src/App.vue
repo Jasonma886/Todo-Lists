@@ -1,7 +1,8 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <router-view/>
+    <transition name="van-fade">
+      <router-view/>
+    </transition>
   </div>
 </template>
 
@@ -18,6 +19,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  height: 100vh;
+  background-color: deepskyblue;
 }
 </style>

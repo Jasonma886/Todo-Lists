@@ -1,26 +1,36 @@
 <template>
-  <div>
+  <div name="van-slide-bottom">
     <van-button @click="get">get DB</van-button>
-    <ul>
-      <li v-for="item in todoLists" :key="item.id">{{ item.name }}</li>
-    </ul>
+    <van-list
+      v-model="loading"
+      :finished="finished"
+      @load="onLoad"
+    >
+      <van-cell v-for="item in list" :key="item" :title="item + ''" />
+    </van-list>
+    <Flutter></Flutter>
   </div>
 </template>
 
 <script>
-import { listsDB as forage } from '../plugins/forage'
+import { listsDB } from '../plugins/forage'
+import Flutter from '../base/flutter'
 export default {
   name: 'index',
   data () {
     return {
-      todoLists: []
+      todoLists: [],
+      listTitles: []
     }
+  },
+  components: {
+    Flutter
   },
   mounted () {
   },
   methods: {
     get () {
-      forage.iterate((value, key, number) => {
+      listsDB.iterate((value, key, number) => {
         if (value) {
           this.todoLists.push(value)
         }
@@ -28,6 +38,13 @@ export default {
         console.log(data)
       })
     }
+  },
+  beforeRouteEnter (to, from, next) {
+    listsDB.keys().then(keys => {
+      next(vm => {
+        vm.listTitles = keys
+      })
+    })
   }
 }
 </script>

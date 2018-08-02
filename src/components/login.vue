@@ -69,23 +69,25 @@ export default {
       'signIn'
     ]),
     login () {
-      let {username, password} = this.loginInfo
-      if (username && password) {
-        loginDB.getItem(username).then(data => {
-          if (data) {
-            if (data.password === password) {
-              this.signIn()
-              this.$router.push('/')
-            } else {
-              this.$toast('The username or password is not corrected, please try again!')
-            }
-          } else {
-            this.$toast('This username is not existed!')
-          }
-        }).catch(() => {
-          this.$toast('Sign in failed. Please try again!')
-        })
-      }
+      this.signIn()
+      this.$router.push('/')
+      // let {username, password} = this.loginInfo
+      // if (username && password) {
+      //   loginDB.getItem(username).then(data => {
+      //     if (data) {
+      //       if (data.password === password) {
+      //         this.signIn()
+      //         this.$router.push('/')
+      //       } else {
+      //         this.$toast('The username or password is not correct, please try again!')
+      //       }
+      //     } else {
+      //       this.$toast('This username is not existed!')
+      //     }
+      //   }).catch(() => {
+      //     this.$toast('Sign in failed. Please try again!')
+      //   })
+      // }
     },
     _register () {
       let {username, password} = this.registerInfo
@@ -118,6 +120,8 @@ export default {
 }
 </script>
 
-<style lang="" scoped>
-
+<style lang="stylus" scoped>
+  .login {
+    margin-top: 60px
+  }
 </style>

@@ -24,20 +24,28 @@
     </div>
   </div>
   <div class="sign-in" v-else>
-
+    <div class="head-img"></div>
+    <div><h3>{{userName}}</h3></div>
+    <van-cell-group>
+      <van-field v-model="logInfo.password" placeholder="输入密码" />
+    </van-cell-group>
+    <van-button @click="login">Sign In</van-button>
   </div>
 </div>
 </template>
 
 <script>
 import {loginDB} from '../plugins/forage'
-import {mapActions} from 'vuex'
+import {mapActions, mapState} from 'vuex'
 export default {
   name: 'guide',
   data () {
     return {
       isRegistered: false,
       active: 0,
+      logInfo: {
+        password: ''
+      },
       regInfo: {
         username: '',
         password1: '',
@@ -45,30 +53,30 @@ export default {
       }
     }
   },
+  computed: {
+    ...mapState([
+      'userName'
+    ])
+  },
   methods: {
     ...mapActions([
-      'signIn'
+      'signIn',
+      'setName'
     ]),
     login () {
-      this.signIn()
-      this.$router.push('/')
-      // let {username, password} = this.loginInfo
-      // if (username && password) {
-      //   loginDB.getItem(username).then(data => {
-      //     if (data) {
-      //       if (data.password === password) {
-      //         this.signIn()
-      //         this.$router.push('/')
-      //       } else {
-      //         this.$toast('The username or password is not correct, please try again!')
-      //       }
-      //     } else {
-      //       this.$toast('This username is not existed!')
-      //     }
-      //   }).catch(() => {
-      //     this.$toast('Sign in failed. Please try again!')
-      //   })
-      // }
+      let password = this.logInfo.password
+      if (password) {
+        loginDB.getItem('password').then(result => {
+          if (result === password) {
+            this.signIn()
+            this.$router.push('/')
+          } else {
+            this.$toast('Wrong Password!Please try again!')
+          }
+        })
+      } else {
+        this.$toast('Please enter the Password')
+      }
     },
     _register (name, psw) {
       Promise.all([
@@ -78,6 +86,7 @@ export default {
       ]).then(results => {
         if (results) {
           this.signIn()
+          this.setName(name)
           this.$toast('Register success!')
           setTimeout(() => {
             this.$router.push('/')
@@ -99,10 +108,11 @@ export default {
       loginDB.getItem('username').then(result => {
         if (result) {
           vm.isRegistered = true
+          vm.setName(result)
         } else {
           vm.isRegistered = false
         }
-      }).catch(err => {
+      }).catch(() => {
         vm.isRegistered = false
       })
     })
@@ -118,4 +128,10 @@ export default {
       margin-bottom: 10px
     .field
       margin-bottom: 10px
+  .sign-in
+    .head-img
+      width: 60px
+      height: 60px
+      border-radius 30px
+      background-color: palegreen
 </style>

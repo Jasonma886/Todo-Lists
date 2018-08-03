@@ -18,6 +18,7 @@ export default {
 @keyframes move-up {
   from {
     top: 0
+    display: block
   }
   to {
     top: -50%
@@ -28,6 +29,7 @@ export default {
 @keyframes move-down {
   from {
     bottom 0
+    display: block
   }
   to {
     bottom -50%
@@ -49,6 +51,7 @@ export default {
     background-size: cover;
     background-repeat: no-repeat;
     z-index: 999
+    display: block
   }
   .upper-part {
     top 0

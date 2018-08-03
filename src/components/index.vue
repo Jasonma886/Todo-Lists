@@ -7,9 +7,12 @@
       @click-left="$router.back()"
       @click-right="$toast('hi')"
     />
-    <van-cell-group>
-      <van-cell v-for="item in todoLists" :key="item.id" :title="item.content" :value="stamp2Time(item.time)" @click="$router.push('/dairy/' + item.time)" />
-    </van-cell-group>
+    <van-cell-swipe v-for="item in todoLists" :key="item.id" :right-width="65">
+      <van-cell-group>
+        <van-cell :title="item.content" :value="stamp2Time(item.time)" @click="$router.push('/dairy/' + item.time)" />
+      </van-cell-group>
+      <span slot="right">删除</span>
+    </van-cell-swipe>
     <Flutter></Flutter>
   </div>
 </template>

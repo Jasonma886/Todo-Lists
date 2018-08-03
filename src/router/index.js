@@ -41,7 +41,13 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.meta.unAuth || store.state.isSignIn) {
+  if (store.state.isSignIn) {
+    if (to.name === 'guide') {
+      router.push('/')
+    } else {
+      next()
+    }
+  } else if (to.meta.unAuth) {
     next()
   } else {
     router.push('/guide')

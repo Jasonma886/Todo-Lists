@@ -27,7 +27,7 @@
     <div class="head-img"></div>
     <div><h3>{{userName}}</h3></div>
     <van-cell-group>
-      <van-field v-model="logInfo.password" placeholder="输入密码" />
+      <van-field v-model="logInfo.password" type="password" placeholder="输入密码" />
     </van-cell-group>
     <van-button @click="login">Sign In</van-button>
   </div>
@@ -132,6 +132,7 @@ export default {
     .head-img
       width: 60px
       height: 60px
+      margin: 15px auto;
       border-radius 30px
       background-color: palegreen
 </style>

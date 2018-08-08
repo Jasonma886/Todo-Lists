@@ -7,12 +7,14 @@
       @click-left="$router.back()"
       @click-right="$toast('hi')"
     />
-    <van-cell-swipe v-for="item in todoLists" :key="item.id" :right-width="65">
-      <van-cell-group>
-        <van-cell :title="item.content" :value="stamp2Time(item.time)" @click="$router.push('/dairy/' + item.time)" />
-      </van-cell-group>
-      <span slot="right">删除</span>
-    </van-cell-swipe>
+    <van-pull-refresh v-model="isLoading" @refresh="refreshList">
+      <van-cell-swipe v-for="item in todoLists" :key="item.id" :right-width="65">
+        <van-cell-group>
+          <van-cell :title="item.content" :value="stamp2Time(item.time)" @click="$router.push('/dairy/' + item.time)" />
+        </van-cell-group>
+        <span slot="right" @click="deleteItem(item)">删除</span>
+      </van-cell-swipe>
+    </van-pull-refresh>
     <Flutter></Flutter>
   </div>
 </template>
@@ -26,7 +28,8 @@ export default {
   data () {
     return {
       todoLists: [],
-      listTitles: []
+      listTitles: [],
+      isLoading: false
     }
   },
   components: {
@@ -36,26 +39,38 @@ export default {
   },
   methods: {
     stamp2Time,
-    get () {
+    // 删除项目
+    deleteItem (item) {
+      let {key} = item
+      listsDB.removeItem(key).then(() => {
+        this.$toast('Done!!!')
+        this.refreshList()
+      }).catch(err => {
+        this.$toast(err)
+      })
+    },
+    refreshList () {
+      let arr = []
       listsDB.iterate((value, key, number) => {
         if (value) {
-          this.todoLists.push(value)
+          Object.assign(value, {key})
+          arr.push(value)
         }
       }).then(data => {
-        console.log(data)
+        this.todoLists = arr
+        setTimeout(() => {
+          this.isLoading = false
+        }, 800)
+      }).catch(() => {
+        setTimeout(() => {
+          this.isLoading = false
+        }, 800)
       })
     }
   },
   beforeRouteEnter (to, from, next) {
-    let arr = []
-    listsDB.iterate((value, key, number) => {
-      if (value) {
-        arr.push(value)
-      }
-    }).then(data => {
-      next(vm => {
-        vm.todoLists = arr
-      })
+    next(vm => {
+      vm.refreshList()
     })
   }
 }
@@ -70,4 +85,26 @@ export default {
     .van-cell__value
       color: #666
       font-size: 12px
+    .van-cell__title
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    .van-pull-refresh
+      height: 85vh
+</style>
+
+<style>
+  .van-cell-swipe__right {
+    right: 0;
+    -webkit-transform: translate3d(100%,0,0);
+    transform: translate3d(100%,0,0);
+    color: #FFFFFF;
+    font-size: 15px;
+    width: 65px;
+    height: 44px;
+    display: inline-block;
+    text-align: center;
+    line-height: 44px;
+    background-color: #F44;
+  }
 </style>

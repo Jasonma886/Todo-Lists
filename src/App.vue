@@ -51,7 +51,7 @@ export default {
     background-size: cover;
     background-repeat: no-repeat;
     z-index: 999
-    display: block
+    display: none
   }
   .upper-part {
     top 0

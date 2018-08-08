@@ -44,7 +44,7 @@ export default {
       isRegistered: false,
       active: 0,
       logInfo: {
-        password: ''
+        password: '123'
       },
       regInfo: {
         username: '',

@@ -21,11 +21,15 @@
         rows="25"
       />
     </van-cell-group>
+    <div v-if="isModified" class="update-notice">
+      <span class="content">上次修改时间： {{stamp2Time(listInfo.updateTime)}}</span>
+    </div>
   </div>
 </template>
 
 <script>
 import {listsDB} from '../plugins/forage'
+import {stamp2Time} from '../utils/time'
 export default {
   name: 'dairy',
   data () {
@@ -34,10 +38,12 @@ export default {
       listInfo: {},
       isEditing: true,
       listID: '',
-      buttonText: '编辑'
+      buttonText: '编辑',
+      isModified: false //  是否修改过
     }
   },
   methods: {
+    stamp2Time,
     editing () {
       this.buttonText = '保存'
       this.isEditing = false
@@ -48,6 +54,7 @@ export default {
       listsDB.setItem(this.listID, this.listInfo).then(result => {
         if (result) {
           this.$toast('DONE!')
+          this.$router.back()
         }
       })
     }
@@ -59,6 +66,9 @@ export default {
       listsDB.getItem(key).then(result => {
         if (result) {
           vm.listInfo = result
+          if (result.updateTime) {
+            vm.isModified = true
+          }
         }
       })
     })
@@ -67,13 +77,24 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-  .dairy {
+  .dairy
     background-image: url(../assets/diary.png)
     background-size: cover
     background-repeat: no-repeat
     height: 100vh;
     overflow: scroll;
-  }
+    .update-notice
+      position: absolute
+      bottom: 30px
+      width: 100vw
+      left: 50%
+      margin-left: -50%
+      font-size: 12px
+      .content
+        background-color: rgba(150,150,150,0.7)
+        display: inline-block
+        padding: 3px 8px
+        border-radius 8px
 </style>
 <style lang="stylus">
   .dairy

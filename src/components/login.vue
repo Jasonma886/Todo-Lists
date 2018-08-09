@@ -1,128 +1,58 @@
 <template>
-  <div class="login">
-    <van-nav-bar title="Sign In"/>
-    <van-tabs swipeable>
-      <van-tab title="Sign in">
-        <van-cell-group>
-          <van-field
-            v-model="loginInfo.username"
-            required
-            clearable
-            label="用户名"
-            placeholder="请输入用户名"
-            @click-icon="loginInfo.username=''"
-          />
-
-          <van-field
-            v-model="loginInfo.password"
-            type="password"
-            label="密码"
-            placeholder="请输入密码"
-            required
-          />
-          <van-button type="primary" @click="login">Sign in</van-button>
-        </van-cell-group>
-      </van-tab>
-      <van-tab title="Register">
-        <van-cell-group>
-          <van-field
-            v-model="registerInfo.username"
-            required
-            clearable
-            label="用户名"
-            placeholder="请输入用户名"
-            @click-icon="registerInfo.username=''"
-          />
-          <van-field
-            v-model="registerInfo.password"
-            type="password"
-            label="密码"
-            placeholder="请输入密码"
-            required
-          />
-          <van-button type="default" @click="register">Register</van-button>
-        </van-cell-group>
-      </van-tab>
-    </van-tabs>
+  <div class="sign-in">
+    <div class="head-img"></div>
+    <div><h3>{{userName}}</h3></div>
+    <van-cell-group>
+      <van-field v-model="password" type="password" placeholder="输入密码" />
+    </van-cell-group>
+    <van-button @click="login">Sign In</van-button>
   </div>
 </template>
 
 <script>
 import {loginDB} from '../plugins/forage'
-import {mapActions} from 'vuex'
+import {mapActions, mapState} from 'vuex'
 export default {
   name: 'login',
   data () {
     return {
-      loginInfo: {
-        username: '',
-        password: ''
-      },
-      registerInfo: {
-        username: '',
-        password: '',
-        password2: ''
-      }
+      password: ''
     }
+  },
+  computed: {
+    ...mapState([
+      'userName'
+    ])
   },
   methods: {
     ...mapActions([
       'signIn'
     ]),
     login () {
-      this.signIn()
-      this.$router.push('/')
-      // let {username, password} = this.loginInfo
-      // if (username && password) {
-      //   loginDB.getItem(username).then(data => {
-      //     if (data) {
-      //       if (data.password === password) {
-      //         this.signIn()
-      //         this.$router.push('/')
-      //       } else {
-      //         this.$toast('The username or password is not correct, please try again!')
-      //       }
-      //     } else {
-      //       this.$toast('This username is not existed!')
-      //     }
-      //   }).catch(() => {
-      //     this.$toast('Sign in failed. Please try again!')
-      //   })
-      // }
-    },
-    _register () {
-      let {username, password} = this.registerInfo
-      let now = +new Date()
-      let info = {
-        username,
-        password,
-        createTime: now
-      }
-      loginDB.setItem(username, info).then(res => {
-        if (res) {
-          this.$toast('Register success!')
-        }
-      })
-    },
-    register () {
-      loginDB.keys().then(keys => {
-        if (keys && keys.length > 0) {
-          if (keys.includes(this.registerInfo.username)) {
-            this.$toast('This username has been used! please try another username!')
+      let password = this.password
+      if (password) {
+        loginDB.getItem('password').then(result => {
+          if (result === password) {
+            this.signIn()
+            this.$router.push('/')
           } else {
-            this._register()
+            this.$toast('Wrong Password!Please try again!')
           }
-        } else {
-          this._register()
-        }
-      })
+        })
+      } else {
+        this.$toast('Please enter the Password')
+      }
     }
   }
 }
 </script>
 
 <style lang="stylus" scoped>
-  .login {
-    /*margin-top: 60px*/
-  }
+  .sign-in
+    .head-img
+      width: 60px
+      height: 60px
+      margin: 15px auto;
+      border-radius 30px
+      background-color: palegreen
 </style>

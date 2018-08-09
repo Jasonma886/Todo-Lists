@@ -7,14 +7,17 @@
       @click-left="$router.back()"
       @click-right="$toast('hi')"
     />
-    <van-pull-refresh v-model="isLoading" @refresh="refreshList">
-      <van-cell-swipe v-for="item in todoLists" :key="item.id" :right-width="65">
-        <van-cell-group>
-          <van-cell :title="item.content" :value="stamp2Time(item.time)" @click="$router.push('/dairy/' + item.time)" />
-        </van-cell-group>
-        <span slot="right" @click="deleteItem(item)">删除</span>
-      </van-cell-swipe>
-    </van-pull-refresh>
+    <!--this.refreshList(this.start, this.end)-->
+    <!--<van-pull-refresh>-->
+      <van-list v-model="isScrollToEnd" @load="onLoad" :finished="finished">
+        <van-cell-swipe v-for="item in todoLists" :key="item.key" :right-width="65">
+          <van-cell-group>
+            <van-cell :title="item.content" :value="stamp2Time(item.time)" @click="$router.push('/dairy/' + item.time)" />
+          </van-cell-group>
+          <span slot="right" @click="deleteItem(item)">删除</span>
+        </van-cell-swipe>
+      </van-list>
+    <!--</van-pull-refresh>-->
     <Flutter></Flutter>
   </div>
 </template>
@@ -29,7 +32,11 @@ export default {
     return {
       todoLists: [],
       listTitles: [],
-      isLoading: false
+      start: 0,
+      end: 10,
+      finished: false,
+      isLoading: false, // 是否触发下拉刷新
+      isScrollToEnd: false // 是否滚动到底部
     }
   },
   components: {
@@ -49,15 +56,21 @@ export default {
         this.$toast(err)
       })
     },
-    refreshList () {
+    refreshList (start = 0, end = 10) {
       let arr = []
       listsDB.iterate((value, key, number) => {
-        if (value) {
+        console.log(number + '=======================')
+        if (value && number > start && number <= end) {
           Object.assign(value, {key})
           arr.push(value)
+        } else if (number > end) {
+          return arr
         }
       }).then(data => {
-        this.todoLists = arr
+        this.todoLists.push(...data)
+        this.start = start + 10
+        this.end = end + 10
+        this.isScrollToEnd = false
         setTimeout(() => {
           this.isLoading = false
         }, 800)
@@ -66,11 +79,16 @@ export default {
           this.isLoading = false
         }, 800)
       })
+    },
+    // 滚动至底部触发
+    onLoad () {
+      this.$toast('touch the bottom.')
+      this.refreshList(this.start, this.end)
     }
   },
   beforeRouteEnter (to, from, next) {
     next(vm => {
-      vm.refreshList()
+      // vm.refreshList()
     })
   }
 }
@@ -82,6 +100,9 @@ export default {
 </style>
 <style lang="stylus">
   .home
+    .van-list
+      overflow: auto
+      height: 55vh
     .van-cell__value
       color: #666
       font-size: 12px

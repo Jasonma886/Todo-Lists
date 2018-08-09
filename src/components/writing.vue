@@ -26,7 +26,8 @@ export default {
   data () {
     return {
       content: '',
-      title: ''
+      title: '',
+      len: 1
     }
   },
   methods: {
@@ -34,14 +35,20 @@ export default {
       let time = +new Date()
       listsDB.setItem(time, {
         time,
-        content: this.content,
+        content: this.content + this.len,
         title: this.title
       }).then(result => {
         if (result) {
           this.$toast('Saved success!')
           setTimeout(() => {
-            this.$router.back()
-          }, 200)
+            // this.$router.back()
+            this.len++
+            if (this.len > 200) {
+              this.$router.back()
+            } else {
+              this.save()
+            }
+          }, 20)
         }
       })
     }

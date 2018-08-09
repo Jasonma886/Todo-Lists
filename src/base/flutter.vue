@@ -4,7 +4,7 @@
     <div class="icon-group" v-if="showIcon">
       <div class="icon-inner">
         <div class="icon-div hot">
-          <van-icon class="spinner" name="add-o"></van-icon>
+          <van-icon class="spinner" name="add-o" @click="$router.push('/writing')"></van-icon>
         </div>
         <div class="icon-div warm">
           <van-icon class="spinner" name="edit"></van-icon>

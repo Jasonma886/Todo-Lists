@@ -14,3 +14,8 @@ export const listsDB = forage.createInstance({
 export const loginDB = forage.createInstance({
   name: 'loginInfo'
 })
+
+// 每日完成工作database
+export const doneDB = forage.createInstance({
+  name: 'doneLists'
+})

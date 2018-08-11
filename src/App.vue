@@ -2,15 +2,21 @@
   <div id="app">
     <div class="first-open upper-part"></div>
     <div class="first-open down-part"></div>
+    <router-view name="head"></router-view>
     <transition name="van-fade">
       <router-view/>
     </transition>
+    <nav-bar></nav-bar>
   </div>
 </template>
 
 <script>
+import NavBar from './base/nav-bar'
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    NavBar
+  }
 }
 </script>
 
@@ -43,7 +49,7 @@ export default {
   text-align: center;
   color: #2c3e50;
   height: 100vh;
-  background-color: deepskyblue;
+  background-color: #E6CDF7;
   .first-open {
     position: absolute
     width: 100%
@@ -51,7 +57,6 @@ export default {
     background-size: cover;
     background-repeat: no-repeat;
     z-index: 999
-    display: none
   }
   .upper-part {
     top 0

@@ -6,6 +6,9 @@ import Guide from '@/components/guide'
 import Home from '@/components/index'
 import Writing from '@/components/writing'
 import Dairy from '@/components/dairy'
+import TimeTable from '@/components/time-table'
+// import SignHead from '@/base/sign-head'
+
 Vue.use(Router)
 
 const router = new Router({
@@ -36,6 +39,11 @@ const router = new Router({
       path: '/dairy/:value',
       name: 'dairy',
       component: Dairy
+    },
+    {
+      path: '/timeTable',
+      name: 'timeTable',
+      components: {default: TimeTable}
     }
   ]
 })

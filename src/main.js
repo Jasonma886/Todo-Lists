@@ -18,3 +18,12 @@ new Vue({
   components: { App },
   template: '<App/>'
 })
+
+window.onload = function () {
+  setTimeout(function () {
+    let needHide = document.getElementsByClassName('first-open')
+    Array.prototype.forEach.call(needHide, function (div) {
+      div.style.display = 'none'
+    })
+  }, 1500)
+}

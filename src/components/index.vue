@@ -59,7 +59,6 @@ export default {
     refreshList (start = 0, end = 10) {
       let arr = []
       listsDB.iterate((value, key, number) => {
-        console.log(number + '=======================')
         if (value && number > start && number <= end) {
           Object.assign(value, {key})
           arr.push(value)
@@ -67,6 +66,10 @@ export default {
           return arr
         }
       }).then(data => {
+        if (!data) {
+          data = arr
+          this.finished = true
+        }
         this.todoLists.push(...data)
         this.start = start + 10
         this.end = end + 10

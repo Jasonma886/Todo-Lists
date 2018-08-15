@@ -5,7 +5,7 @@
     <van-cell-group>
       <van-field v-model="password" type="password" placeholder="输入密码" />
     </van-cell-group>
-    <van-button @click="login">Sign In</van-button>
+    <van-button class="sign-btn" @click="login">Sign In</van-button>
   </div>
 </template>
 
@@ -49,10 +49,14 @@ export default {
 
 <style lang="stylus" scoped>
   .sign-in
+    text-align: center
     .head-img
       width: 60px
       height: 60px
       margin: 15px auto;
       border-radius 30px
       background-color: palegreen
+    .sign-btn
+      margin-top: 10px
+      width: 50%
 </style>

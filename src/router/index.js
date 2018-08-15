@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import store from '../store'
-import HelloWorld from '@/components/HelloWorld'
+import Personal from '@/components/personal'
 import Guide from '@/components/guide'
 import Home from '@/components/index'
 import Writing from '@/components/writing'
@@ -26,9 +26,9 @@ const router = new Router({
       meta: {unAuth: true}
     },
     {
-      path: '/hello',
-      name: 'hello',
-      component: HelloWorld
+      path: '/personal',
+      name: 'personal',
+      component: Personal
     },
     {
       path: '/writing',

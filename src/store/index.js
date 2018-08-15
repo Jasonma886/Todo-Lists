@@ -9,16 +9,16 @@ export default new Vuex.Store({
     userName: ''
   },
   mutations: {
-    signIn (state) {
-      state.isSignIn = true
+    signIn (state, flag) {
+      state.isSignIn = flag
     },
     setName (state, name) {
       state.userName = name
     }
   },
   actions: {
-    signIn ({commit}) {
-      commit('signIn')
+    signIn ({commit}, flag = true) {
+      commit('signIn', flag)
     },
     setName ({commit}, name) {
       commit('setName', name)

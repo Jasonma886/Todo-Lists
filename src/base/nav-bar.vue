@@ -2,8 +2,8 @@
   <van-tabbar v-model="active">
     <van-tabbar-item icon="wap-home" to="/"></van-tabbar-item>
     <van-tabbar-item icon="chat" to="/timeTable"></van-tabbar-item>
-    <van-tabbar-item icon="records"></van-tabbar-item>
-    <van-tabbar-item icon="gold-coin"></van-tabbar-item>
+    <!--<van-tabbar-item icon="records"></van-tabbar-item>-->
+    <van-tabbar-item icon="contact" to="/personal"></van-tabbar-item>
   </van-tabbar>
 </template>
 
